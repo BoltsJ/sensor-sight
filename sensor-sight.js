@@ -3,7 +3,7 @@
 import {libWrapper} from './module/shim.js';
 
 Hooks.once('setup', () => {
-  libWrapper.register('sight-test', 'SightLayer.prototype.testVisibility', function (w, point, {tolerance=2, object=null}={}) {
+  libWrapper.register('sensor-sight', 'SightLayer.prototype.testVisibility', function (w, point, {tolerance=2, object=null}={}) {
     // default logic
     let r = w.apply(this, [point, {tolerance, object}]);
     // is this within sensor range of any controlled token?
