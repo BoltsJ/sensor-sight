@@ -1,0 +1,17 @@
+{
+    "name": "sensor-sight",
+    "title": "Sensor Sight",
+    "description": "Reveals tokens within the sensor range of a mech",
+    "author": "Bolts",
+    "type": "module",
+    "version": "0.0.0a",
+    "minimumCoreVersion": "0.7.0",
+    "compatibleCoreVersion": "0.7.7",
+    "system": "lancer",
+    "esmodules": [
+        "./sensor-sight.js"
+    ],
+    "url": "https://github.com/BoltsJ/sensor-sight.git",
+    "manifest": "https://raw.githubusercontent.com/BoltsJ/sensor-sight/default/module.json",
+    "download": "https://github.com/BoltsJ/sensor-sight/archive/default.zip"
+}
