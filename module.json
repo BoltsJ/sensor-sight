@@ -7,7 +7,7 @@
     "version": "0.0.0a",
     "minimumCoreVersion": "0.7.0",
     "compatibleCoreVersion": "0.7.7",
-    "system": "lancer",
+    "systems": ["lancer"],
     "esmodules": [
         "./sensor-sight.js"
     ],
