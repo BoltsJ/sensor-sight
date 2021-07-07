@@ -15,7 +15,7 @@ Hooks.once('setup', () => {
 });
 
 function inSensorRange(token, point) {
-  let sensors = token.actor.data.data.derived.mmec?.ent.SensorRange;
+  let sensors = token.actor.data.data.derived.mm?.SensorRange;
   if (sensors === undefined) {
     let sensors = token.actor.data.data.mech?.sensors;
     if (sensors === undefined) {
