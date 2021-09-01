@@ -1,10 +1,10 @@
 {
   "name": "sensor-sight",
-  "title": "Sensor Sight",
+  "title": "Sensor Sight for Lancer",
   "description": "Reveals tokens within the sensor range of a mech",
   "author": "Bolts",
   "type": "module",
-  "version": "0.0.0a",
+  "version": "0.0a",
   "minimumCoreVersion": "0.8.6",
   "compatibleCoreVersion": "0.8.9",
   "systems": ["lancer"],

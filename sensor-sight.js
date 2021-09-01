@@ -3,17 +3,33 @@
 import { libWrapper } from "./module/shim.js";
 
 Hooks.once("init", () => {
+  game.settings.register("sensor-sight", "combine-observers", {
+    name: "See through all observed tokens",
+    hint: `When determining if a token is visible, check all observable tokens \
+           instead of just owned tokens. This setting only affects players.`,
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: () => canvas.sight.refresh(),
+  });
+
   libWrapper.register(
     "sensor-sight",
     "SightLayer.prototype.testVisibility",
     function (w, point, { tolerance = 2, object = null } = {}) {
       // default logic
-      let r = w.apply(this, [point, { tolerance, object }]);
+      const r = w.apply(this, [point, { tolerance, object }]);
       // is this within sensor range of any controlled token?
-      let s = canvas.tokens.controlled.reduce((a, t) => {
-        return a || inSensorRange(t, point);
-      }, false);
-      return r || s;
+      const obs = game.settings.get("sensor-sight", "combine-observers");
+      const s = (
+        game.user.isGM ? canvas.tokens.controlled : canvas.tokens.placeables
+      )
+        .filter(t => (obs ? t.observer : t.owner))
+        .reduce((a, t) => {
+          return a || inSensorRange(t, point);
+        }, r);
+      return s;
     }
   );
 
@@ -39,7 +55,10 @@ Hooks.once("init", () => {
 
 function inSensorRange(token, point) {
   const sensors = token.actor.data.data.derived.mm?.SensorRange;
-  const rays = Array.from(token.getOccupiedSpaces()).map(p => {
+  const spaces = Array.from(token.getOccupiedSpaces());
+  // On gridless, so just use center.
+  if (!spaces.length) spaces.push(token.center);
+  const rays = spaces.map(p => {
     return { ray: new Ray(p, point) };
   });
   const min_d = Math.min(
