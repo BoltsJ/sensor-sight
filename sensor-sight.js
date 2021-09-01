@@ -15,16 +15,10 @@ Hooks.once('setup', () => {
 });
 
 function inSensorRange(token, point) {
-  let sensors = token.actor.data.data.derived.mm?.SensorRange;
-  if (sensors === undefined) {
-    let sensors = token.actor.data.data.mech?.sensors;
-    if (sensors === undefined) {
-      return false;
-    }
-  }
-  const range = Math.sqrt((token.x - point.x) * (token.x - point.x) + (token.y - point.y) * (token.y - point.y));
-  const scale = canvas.scene.data.gridType > 1 ? Math.sqrt(3) / 2 : 1;// Adjust the measurment on hexes
-  const grid = canvas.scene.data.grid;
-  return (sensors + .6) * grid * scale > range;
-  console.log(range);
+  const sensors = token.actor.data.data.derived.mm?.SensorRange;
+  const rays = Array.from(token.getOccupiedSpaces()).map(p => {
+    return { ray: new Ray(p, point) };
+  });
+  const min_d = Math.min(...canvas.grid.grid.measureDistances(rays, {gridSpaces: true }));
+  return sensors >= min_d;
 }
