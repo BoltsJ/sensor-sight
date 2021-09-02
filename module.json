@@ -7,7 +7,7 @@
   "version": "0.0a",
   "minimumCoreVersion": "0.8.6",
   "compatibleCoreVersion": "0.8.9",
-  "systems": ["lancer"],
+  "system": ["lancer"],
   "esmodules": ["./sensor-sight.js"],
   "url": "https://github.com/BoltsJ/sensor-sight.git",
   "manifest": "https://raw.githubusercontent.com/BoltsJ/sensor-sight/default/module.json",
