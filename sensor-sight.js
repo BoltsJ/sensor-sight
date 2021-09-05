@@ -38,6 +38,7 @@ Hooks.once("init", () => {
     "Token.prototype.isVisible",
     function (w) {
       const vis = w.apply(this);
+      if (this.data.hidden) return game.user.isGM;
       const tolerance = Math.round(
         Math.min(canvas.grid.grid.w, canvas.grid.grid.h) / 4
       );
