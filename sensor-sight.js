@@ -25,7 +25,7 @@ Hooks.once("init", () => {
         game.user.isGM
           ? canvas.tokens.controlled
           : canvas.tokens.placeables.filter(t => (obs ? t.observer : t.owner))
-      ).reduce((a, t) => (a ? a : inSensorRange(t, this)), false);
+      ).reduce((a, t) => a || inSensorRange(t, this), false);
       return s || vis;
     }
   );
@@ -38,13 +38,11 @@ function inSensorRange(observer, target) {
   // On gridless, so just use center.
   if (!o_spaces.length) o_spaces.push(observer.center);
   if (!t_spaces.length) o_spaces.push(target.center);
-  const rays = [];
-  o_spaces.forEach(p1 => {
-    rays.push(...t_spaces.map(p2 => ({ ray: new Ray(p1, p2) })));
-  });
+  const rays = o_spaces.flatMap(p1 =>
+    t_spaces.map(p2 => ({ ray: new Ray(p1, p2) }))
+  );
   const min_d = Math.min(
     ...canvas.grid.grid.measureDistances(rays, { gridSpaces: true })
   );
-  console.log(observer.name, target.name, min_d);
   return sensors >= min_d;
 }
